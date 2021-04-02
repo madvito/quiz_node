@@ -5,6 +5,11 @@ const QuestionsSchema = Schema({
         type: String,
         required: true,
     },
+    category:{
+        type: Schema.Types.ObjectId,
+        ref: 'Category',
+        required: true
+    },
     answers: {
         type: [String],
         required: true

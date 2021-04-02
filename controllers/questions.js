@@ -79,7 +79,8 @@ const postQuestions = async(req,res) => {
 }
 
 const setQuestion = async (req,res) => {
-    const {question, answers, correctAnswer} = req.body;
+    console.log(req.body)
+    const {question, answers, correctAnswer, category} = req.body;
     if(typeof question != 'string' || question.length < 1){
         return res.status(400).json({
             error: "Ingresar pregunta"
@@ -95,10 +96,16 @@ const setQuestion = async (req,res) => {
             error: "Ingresar opciones de respuesta"
         });
     }
+    if(typeof category != 'string' || category.length < 1){
+        return res.status(400).json({
+            error: "Ingresar categoria"
+        });
+    }
     const newQuestion = new Questions({
         question,
         answers,
-        correctAnswer
+        correctAnswer,
+        category
     })
 
     const savedQuestion = await newQuestion.save();

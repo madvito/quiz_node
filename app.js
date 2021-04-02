@@ -9,7 +9,31 @@ require('dotenv').config();
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+// app.use(cors({
+//     origin: 'http://localhost:3000',
+//     optionsSuccessStatus: 200,
+//     allowedHeaders: ['Content-Type']
+// }));
+
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', false);
+
+    // Pass to next layer of middleware
+    next();
+});
+
 app.use(routes)
 
 
