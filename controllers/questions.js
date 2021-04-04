@@ -1,15 +1,10 @@
-const Questions = require('../models/Questions');
-const Answers = require('../models/Answers');
+const Question = require('../models/Question');
+const Answer = require('../models/Answer');
 const validaRut = require('../helpers/valida_rut');
 
-const data = [
-    {
-        question:[]
-    }
-]
 
 const getQuestions = async (req,res) => {
-    const questionsData = await Questions.find();
+    const questionsData = await Question.find();
     const questions = questionsData.map(question => {return {
         question_id: question._id, 
         question: question.question, 
@@ -31,30 +26,24 @@ const postQuestions = async(req,res) => {
 
     let correctAnswers = 0;
 
+    //TODO: hacer la funcion validaRut
     if (!user || !validaRut(rut) || answers.length < 1){
         return res.status(400).json({
             error: 'Ingresar información valida'
         })
     }
 
-    // answers.map(postedAnswer=>{
-    //     const {questionId, answer} = postedAnswer;
-
-    //     const question = await Questions.findById(questionId);
-
-    // });
-
     for (let postedAnswer of answers){
         const {questionId, answer} = postedAnswer;
 
-        const question = await Questions.findById(questionId);
+        const question = await Question.findById(questionId);
 
         if (answer === question.correctAnswer){
             correctAnswers++;
         }
     }
     //TODO: agregar % acierto
-    const answeredQuestions = new Answers({
+    const answeredQuestions = new Answer({
         username: user, 
         rut,
         answers,
@@ -101,7 +90,7 @@ const setQuestion = async (req,res) => {
             error: "Ingresar categoria"
         });
     }
-    const newQuestion = new Questions({
+    const newQuestion = new Question({
         question,
         answers,
         correctAnswer,

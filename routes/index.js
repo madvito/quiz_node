@@ -8,8 +8,8 @@ router.get('/',(req,res) =>{
     res.send('alo')
 });
 
-router.use('/questions', questionsRoutes);
+router.use('/api/v1/questions', questionsRoutes);
 
-router.use('/categories', categoriesRoutes);
+router.use('/api/v1/categories', categoriesRoutes);
 
 module.exports = router;
